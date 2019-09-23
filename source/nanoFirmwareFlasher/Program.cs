@@ -12,6 +12,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using CommandLine.Text;
 using System.IO;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("nanoFirmwareFlasherTests")]
 
 namespace nanoFramework.Tools.FirmwareFlasher
 {
@@ -65,7 +68,7 @@ namespace nanoFramework.Tools.FirmwareFlasher
 
                 Console.WriteLine(helpText.ToString());
 
-                return (int)ExitCodes.OK;
+                return -1;
             }
 
             var parsedArguments = Parser.Default.ParseArguments<Options>(args);
@@ -74,7 +77,7 @@ namespace nanoFramework.Tools.FirmwareFlasher
 
             if (verbosityLevel > VerbosityLevel.Quiet)
             {
-                OutputError(_exitCode, verbosityLevel > VerbosityLevel.Normal, _extraMessage);
+                OutputError(_exitCode, verbosityLevel >= VerbosityLevel.Normal, _extraMessage);
             }
 
             return (int)_exitCode;
